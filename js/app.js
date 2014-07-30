@@ -18,17 +18,7 @@ app.controller('MainController', function ($scope, $http, $filter) {
     console.log("add called", data);
     var myLayer = L.geoJson().addTo(map);
     var array = [];
-    var icon = L.icon({
-        iconUrl: '<span class="glyphicon glyphicon-search"></span>',
-        // shadowUrl: 'leaf-shadow.png',
-
-        iconSize:     [38, 95], // size of the icon
-        // shadowSize:   [50, 64], // size of the shadow
-        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-        // shadowAnchor: [4, 62],  // the same for the shadow
-        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-    });
-
+    
     if (status == 'all') {
       if (data.good.length > 0) {
         console.log("data.good",data.good)
@@ -40,9 +30,7 @@ app.controller('MainController', function ($scope, $http, $filter) {
       if (data.poor.length > 0) {
         $scope.poor(data.poor);
       }
-      // var flattened = array.reduce(function(a, b) {
-      //   return a.concat(b);
-      // });
+      
     }
     if (status == 'good') {
       $scope.good(data);
@@ -54,7 +42,6 @@ app.controller('MainController', function ($scope, $http, $filter) {
       $scope.poor(data);
     }
 
-      // console.log("array with all health stati", array);
     $scope.good = function (data) {
       data.forEach(function (tree) {
 
@@ -95,12 +82,6 @@ app.controller('MainController', function ($scope, $http, $filter) {
           }
         };
         
-
-        // L.geoJson(geojsonFeature, {
-        //     pointToLayer: function (feature, latlng) {
-        //         return L.circleMarker(latlng, geojsonMarkerOptions);
-        //     }
-        // }).addTo(map);
 
         L.geoJson(geojsonFeature, {
           onEachFeature: onEachFeature,
@@ -335,101 +316,3 @@ $scope.fair = function (data) {
       });
 
 });
-
-
-
-
-
-
-
-
-
-//extra code
-
-
-
-// $scope.remove = function (data) {
-//  console.log("remove called", data);
-//  map.removeLayer(leaflet-marker-pane);
- 
-//  var myLayer = L.geoJson().addTo(map);
-
-//  data.forEach(function (tree) {
-
-
-//   function onEachFeature(tree, layer) {
-//     if (tree.properties) {
-//       layer.bindPopup(tree.properties.popupContent);
-//     }
-//   }
-
-
-//   var geojsonFeature = {
-//     "type": "Feature",
-//     "properties": {
-//       "show_on_map": false,
-//       "name": tree.properties.COMMON,
-//       "health": tree.properties.HEALTH,
-//       "popupContent": tree.properties.COMMON + "<br>health: " + tree.properties.HEALTH + '<br>' + tree.properties.ADDRESS
-//     },
-//     "geometry": {
-//       "type": "Point",
-//       "coordinates": [tree.geometry.coordinates[0], tree.geometry.coordinates[1]]
-//     }
-//   };
-//   L.geoJson(geojsonFeature, {
-//     onEachFeature: onEachFeature
-//   }).removeLayer(map);
-// });
-// };
-
-// $scope.visibility = function (someFeatures) {
-//   someFeatures.forEach(function (feature) {
-//     L.geoJson(someFeatures, {
-//       filter: function(feature, layer) {
-//           return feature.properties.show_on_map;
-//       }
-//     }).addTo(map);
-//   });
-
-// };
-
-// $scope.toggle = function (name, value) {
-
-//   if(value == $scope.bool) {
-//     for (key in $scope.obj) {
-//       if (name == key) {
-//         $scope.add($scope.obj[key]);
-//       }
-//     }
-//   }
-//   if(value != $scope.bool) {
-//     for (key in $scope.obj) {
-//       if (name == key) {
-//         $scope.remove($scope.obj[key]);
-//       }
-//     }
-//   }
-//   if(bool == true) {
-//     bool = false;
-//   }
-// }
-
-
-// $scope.addMarkers = function (tree) {
-//     console.log("addMarkers tree", tree);
-//       var marker = L.marker([tree.geometry.coordinates[1], tree.geometry.coordinates[0]]).addTo(map);
-//       marker.bindPopup(tree.properties.COMMON + '<br>' + tree.properties.ADDRESS + '<br>' + tree.geometry.coordinates[1] + ' , ' + tree.geometry.coordinates[0])
-
-
-//   };
-
-//   $scope.sortMarkers = function (data) {
-//     console.log("sortMarkers called with ", data);
-//     console.log("sortMarkers obj ", $scope.obj);
-//     data.forEach(function (tree) {
-//       $scope.addMarkers(tree);
-//     });
-
-//   };
-
