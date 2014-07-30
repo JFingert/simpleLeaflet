@@ -7,42 +7,101 @@
 	<!-- Leaflet -->
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+	<link href="//fonts.googleapis.com/css?family=Open+Sans:400,700,300" rel="stylesheet" type="text/css">
+
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-	
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
 	<div ng-controller="MainController">
+
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand">Concordia Tree Finder</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+
+
+						<li class="dropdown">
+							<a data-toggle="dropdown" class="dropdown-toggle">Trees <b class="caret"></b></a>
+							<ul class="dropdown-menu scrollable-menu" role="menu">
+								<li class="dropdown-submenu" ng-repeat="(key, value) in treeByHealth">
+									
+									 	<a href="#" ng-click="add(treeByHealth[key], 'all')">{{key}}</a>
+
+									<span>
+										<a class="health" ng-click="add(treeByHealth[key].good, 'good')">Good</a>
+										<a class="health" ng-click="add(treeByHealth[key].fair, 'fair')">Fair</a>
+										<a class="health" ng-click="add(treeByHealth[key].poor, 'poor')">Poor</a>
+									</span>
+									<hr>
+									<!-- <ul class="dropdown-menu">
+										<li><a id="good" ng-click="good(obj[key])">Good</a></li>
+										<li><a id="fair" onclick="$('#fair').parent().parent().find('a').text();">Fair</a></li>
+										<li><a id="poor" ng-click="poor(obj[key])">Poor</a></li>
+									</ul> -->
+								</li>
+							</ul>
+						</li>
+
+						<li class="clearMap" onclick="onRemove();"><a>Clear Map</a></li>
+					</ul>
+
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container-fluid -->
+		</nav>
+
 		
-
-
-		<div class="col-xs-2" ng-repeat="(key, value) in obj" >{{key}}: {{value.length}}<button ng-click="add(obj[key])">Show</button><button ng-click="removeLayer(obj[key])">Remove</button></div> 
-
-
-
 
 		<div class="col-xs-12" id="map"></div>
-		
+		Tree Health Color Key: <div class="green">Good</div><div class="orange">Fair</div><div class="red">Poor</div>
+
+		<div id="credits">Made with <a href="http://www.civicapps.org/datasets/street-trees">CivicApps</a>, Leaflet, and Angular.</div>
+
 	</div>
 	
 
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.17/angular.min.js"></script>
-	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+	
+	
 	<script src="js/app.js"></script>
-	<script src="js/lib/underscore-min.js"></script>
 
 
 	<script>
-	var map = L.map('map').setView([45.558774582792395 , -122.62870432685249], 15);
+	var map = L.map('map').setView([45.5664 , -122.6273], 15);
 	L.tileLayer('http://{s}.tiles.mapbox.com/v3/jfingert.j1fa4kd8/{z}/{x}/{y}.png', {
 		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 		maxZoom: 18
 	}).addTo(map);
 
+	
+	var onRemove = function (map) {
+
+		$(".leaflet-marker-icon").hide();
+		$(".leaflet-marker-shadow").hide();
+		$("g").hide();
+
+	}
 	
 	</script>
 </body>
