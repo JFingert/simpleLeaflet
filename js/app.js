@@ -15,13 +15,11 @@ app.controller('MainController', function ($scope, $http, $filter) {
 
 
   $scope.add = function (data, status) {
-    console.log("add called", data);
     var myLayer = L.geoJson().addTo(map);
     var array = [];
     
     if (status == 'all') {
       if (data.good.length > 0) {
-        console.log("data.good",data.good)
         $scope.good(data.good);
       }
       if (data.fair.length > 0) {
@@ -55,7 +53,6 @@ app.controller('MainController', function ($scope, $http, $filter) {
         };
 
         function onEachFeature(tree, layer) {
-          console.log("onEachFeature called", tree);
           if (tree.properties) {
             layer.bindPopup(tree.properties.popupContent);
             layer.on('mouseover', function (e) {
@@ -104,7 +101,6 @@ app.controller('MainController', function ($scope, $http, $filter) {
         };
 
         function onEachFeature(tree, layer) {
-          console.log("onEachFeature called", tree);
           if (tree.properties) {
             layer.bindPopup(tree.properties.popupContent);
             layer.on('mouseover', function (e) {
@@ -156,7 +152,6 @@ app.controller('MainController', function ($scope, $http, $filter) {
         };
 
         function onEachFeature(tree, layer) {
-          console.log("onEachFeature called", tree);
           if (tree.properties) {
             layer.bindPopup(tree.properties.popupContent);
             layer.on('mouseover', function (e) {
@@ -199,7 +194,6 @@ app.controller('MainController', function ($scope, $http, $filter) {
 };
 
 $scope.fair = function (data) {
-  console.log("fair called", data, $scope.obj);
     var array = [];
     var myLayer = L.geoJson().addTo(map);
 
@@ -210,10 +204,8 @@ $scope.fair = function (data) {
     });
 
     array.forEach(function (tree) {
-      console.log("fair condition tree", tree);
 
       function onEachFeature(tree, layer) {
-        console.log("onEachFeature called", tree);
         if (tree.properties) {
           layer.bindPopup(tree.properties.popupContent);
           layer.on('mouseover', function (e) {
@@ -261,18 +253,13 @@ $scope.fair = function (data) {
       .then(function(result){
         
         $scope.treeData = result.data.features;
-        // $scope.treeData.show_on_map = false;
-        console.log("result", $scope.treeData);
-        // $scope.addMarkers($scope.treeData);
         $scope.treeData.forEach(function (entry) {
           $scope.treeProperties.push(entry);
 
           $scope.obj[entry.properties.COMMON] = [];
           $scope.treeByHealth[entry.properties.COMMON] = {good: [], fair: [], poor: []};
-          // $scope.markerTracker[entry.properties.COMMON] = [];
 
         });
-        console.log("$scope.treeByHealth", $scope.treeByHealth)
         for (key in $scope.obj) {
           $scope.treeNames.push({key: []});
         }
@@ -280,7 +267,6 @@ $scope.fair = function (data) {
 
         
 
-        console.log("treeProperties", $scope.treeProperties);
 
         $scope.treeProperties.forEach(function (tree) {
           tree.properties.show_on_map = false;
@@ -310,8 +296,6 @@ $scope.fair = function (data) {
 
           }
         });
-        console.log("$scope.obj",$scope.obj);
-        console.log("$scope.treeByHealth",$scope.treeByHealth);
         $scope.add($scope.treeByHealth);
       });
 
